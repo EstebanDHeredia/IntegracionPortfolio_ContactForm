@@ -1,0 +1,79 @@
+{% extends 'core/base.html' %}
+
+{% block title%} Contacto {% endblock %}
+
+{% block image-header %} contact {% endblock %}
+
+{% block title-header %}
+<div>
+  <h1 class="display-4 fw-bold">Contacto</h1>
+</div>
+<div>
+  <h3 class="fs-2">Asesoría personal</h3>
+</div>
+{% endblock %}
+
+{% load static %}
+
+{% block content %}
+
+<h3 class="text-center">Formulario de Contacto</h3>
+<p class="fs-5 text-center px-5">Es un placer que puedas contactarnos. Nos pondremos en contacto contigo, en el menor
+    tiempo posible</p>
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="name" class="form-label">Nombre y Apellido</label>
+                {{ form.name }}
+                {{ form.name.errors }}
+                <!-- <input type="text" class="form-control" id="name" aria-describedby="nameHelp" minlength="" >
+                        <div id="nameHelp" class="form-text">Por favor, indique su nombre y apellido</div> -->
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Correo Electrónico</label>
+                {{ form.email }}
+                {{ form.email.errors }}
+                <!-- <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
+                        <div id="emailHelp" class="form-text">Nunca compartiremos el correo electrónico que indique a continuación</div> -->
+            </div>
+            <div class="mb-3">
+                <label for="message" class="form-label">Mensaje</label>
+                {{ form.message }}
+                {{ form.message.errors }}
+                <!-- <textarea class="form-control" id="message" name="message" placeholder="Ingrese su mensaje aquí" rows="4"></textarea> -->
+            </div>
+
+            <input type="submit" class="btn btn-primary" value="Enviar Mensaje" {% if 'ok' in request.GET %} disabled {% endif %} {% if 'error' in request.GET %} disabled {% endif %}>
+        </form>
+
+        <!-- pregunto su la url contiene 'ok', si es así muestro un mensaje informando que el msj se envió correctamente  -->
+        {% if 'ok' in request.GET %}
+        <div class="alert alert-success mt-5" role="alert">
+            <strong>Tu mensaje se envió correctamente.</strong>
+        </div>
+        {% endif %}
+
+        <!-- pregunto su la url contiene 'error', si es así muestro un mensaje informando que el msj se NO envió correctamente  -->
+        {% if 'error' in request.GET %}
+        <div class="alert alert-danger mt-5" role="alert">
+            <strong>Tu mensaje no ha podido enviarse. Intenta nuevamente mas tarde. Lo sentimos!!</strong>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <div class="col-md-6 mb-5">
+        <img class="float-start img-fluid" src={% static 'contact/img/email.jpg' %} alt="">
+    </div>
+</div>
+
+<!-- <hr>
+
+<div class="d-grid gap-2 col-6 mx-auto mb-5">
+    <a class="btn btn-info btn-lg" href={% url 'home' %}>Volver al Inicio</a>
+</div> -->
+
+
+{% endblock %}
